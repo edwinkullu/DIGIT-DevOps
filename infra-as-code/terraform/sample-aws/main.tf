@@ -67,12 +67,12 @@ module "eks" {
 
   worker_groups = [
     {
-      name                          = "spot"
+      name                          = "ondemand"
       ami_id                        = "ami-04b500d2e83fc74fe"   
       subnets                       = "${concat(slice(module.network.private_subnets, 0, length(var.availability_zones)))}"
       instance_type                 = "${var.instance_type}"
       override_instance_types       = "${var.override_instance_types}"
-      kubelet_extra_args            = "--node-labels=node.kubernetes.io/lifecycle=spot"
+      kubelet_extra_args            = "--node-labels=node.kubernetes.io/lifecycle=ondemand"
       asg_max_size                  = "${var.number_of_worker_nodes}"
       asg_desired_capacity          = "${var.number_of_worker_nodes}"
       spot_allocation_strategy      = "capacity-optimized"
