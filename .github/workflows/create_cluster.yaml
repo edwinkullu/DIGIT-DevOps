@@ -3,7 +3,7 @@ name: DEV-DIGIT-Install workflow
 on:
   push:
     branches:
-      - DIGIT-DEV-PIRAMAL
+      - R&d-demo-for-cluster
   workflow_dispatch:
     inputs:
       destroyCommand:
