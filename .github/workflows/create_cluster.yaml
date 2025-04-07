@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
     
     - name: Check for changes in deploy-as-code
       id: check_files
@@ -38,7 +38,7 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Build project
         run: echo "Githubactions Workflow has started"
       - name: Displaying the input parameters provided
@@ -56,6 +56,12 @@ jobs:
       - name: Change working directory
         run: echo "This command is run in the current directory"
         working-directory: infra-as-code/terraform/sample-aws/remote-state
+      - name: Display environment variables
+        run: |
+          echo "terraform_state_bucket_name: $TERRAFORM_STATE_BUCKET_NAME"  
+      - name: Change working directory
+        run: echo "This command is run in the current directory"
+        working-directory: infra-as-code/terraform/sample-aws/remote-state   
       - name: Updating different files based on parameters provided in input.yaml
         run: go run init.go
         working-directory: infra-as-code/terraform/scripts
@@ -64,12 +70,12 @@ jobs:
       - name: Archive deploy-as-code folder
         run: tar -czf deploy-as-code.tar.gz deploy-as-code/
       - name: Upload infra-as-code folder as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: infra-as-code-artifact
           path: infra-as-code.tar.gz
       - name: Upload deploy-as-code folder as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: deploy-as-code-artifact
           path: deploy-as-code.tar.gz     
@@ -86,14 +92,14 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Download infra-as-code folder from artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v2
         with:
           name: infra-as-code-artifact
           path: .
       - name: Download deploy-as-code folder from artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v2
         with:
           name: deploy-as-code-artifact
           path: .
@@ -111,7 +117,7 @@ jobs:
         run: sudo apt-get install -y jq
       - name: Convert YAML to JSON
         run: |
-          cat deploy-as-code/charts/environments/dev-secrets.yaml | yq e -j - > secrets.json
+          cat deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
       - name: Extract dbPassword
         id: extract
         run: |
@@ -183,12 +189,12 @@ jobs:
       - name: Archive deploy-as-code folder
         run: tar -czf deploy-as-code.tar.gz deploy-as-code/
       - name: Upload infra-as-code folder as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: infra-as-code-artifact
           path: infra-as-code.tar.gz
       - name: Upload deploy-as-code folder as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: deploy-as-code-artifact
           path: deploy-as-code.tar.gz      
@@ -205,14 +211,14 @@ jobs:
   #     AWS_REGION:  ${{ secrets.AWS_REGION }}
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v2
   #     - name: Download infra-as-code folder from artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v2
   #       with:
   #         name: infra-as-code-artifact
   #         path: .
   #     - name: Download deploy-as-code folder from artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v2
   #       with:
   #         name: deploy-as-code-artifact
   #         path: .
@@ -230,7 +236,7 @@ jobs:
   #       run: sudo apt-get install -y jq
   #     - name: Convert YAML to JSON
   #       run: |
-  #         cat deploy-as-code/charts/environments/dev-secrets.yaml | yq e -j - > secrets.json
+  #         cat deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
   #     - name: Extract flywayPassword
   #       id: extract
   #       run: |
@@ -312,7 +318,7 @@ jobs:
   #     AWS_REGION:  ${{ secrets.AWS_REGION }}
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v2
   #     - name: Deploying because changes were made in deploy-as-code
   #       run: echo "Deploying because changes were made in deploy-as-code"
   #     - name: Displaying the input parameters provided
@@ -338,7 +344,7 @@ jobs:
   #       run: sudo apt-get install -y jq
   #     - name: Convert YAML to JSON
   #       run: |
-  #         cat deploy-as-code/charts/environments/dev-secrets.yaml | yq e -j - > secrets.json
+  #         cat deploy-as-code/charts/environments/env-secrets.yaml | yq e -j - > secrets.json
   #     - name: Extract flywayPassword
   #       id: extract
   #       run: |
@@ -408,7 +414,7 @@ jobs:
   #         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
   #         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   #         AWS_DEFAULT_REGION:  ${{ secrets.AWS_DEFAULT_REGION }}
-  #         AWS_REGION:  ${{ secrets.AWS_REGION }}  
+  #         AWS_REGION:  ${{ secrets.AWS_REGION }} 
                    
   terraform_infra_destruction:
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.destroyCommand == 'destroy' }}
@@ -421,7 +427,7 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
