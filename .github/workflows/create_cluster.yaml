@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     
     - name: Check for changes in deploy-as-code
       id: check_files
@@ -38,7 +38,7 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Build project
         run: echo "Githubactions Workflow has started"
       - name: Displaying the input parameters provided
@@ -70,12 +70,12 @@ jobs:
       - name: Archive deploy-as-code folder
         run: tar -czf deploy-as-code.tar.gz deploy-as-code/
       - name: Upload infra-as-code folder as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: infra-as-code-artifact
           path: infra-as-code.tar.gz
       - name: Upload deploy-as-code folder as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: deploy-as-code-artifact
           path: deploy-as-code.tar.gz     
@@ -92,14 +92,14 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Download infra-as-code folder from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: infra-as-code-artifact
           path: .
       - name: Download deploy-as-code folder from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: deploy-as-code-artifact
           path: .
@@ -189,12 +189,12 @@ jobs:
       - name: Archive deploy-as-code folder
         run: tar -czf deploy-as-code.tar.gz deploy-as-code/
       - name: Upload infra-as-code folder as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: infra-as-code-artifact
           path: infra-as-code.tar.gz
       - name: Upload deploy-as-code folder as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: deploy-as-code-artifact
           path: deploy-as-code.tar.gz      
@@ -211,14 +211,14 @@ jobs:
   #     AWS_REGION:  ${{ secrets.AWS_REGION }}
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v4
   #     - name: Download infra-as-code folder from artifacts
-  #       uses: actions/download-artifact@v2
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: infra-as-code-artifact
   #         path: .
   #     - name: Download deploy-as-code folder from artifacts
-  #       uses: actions/download-artifact@v2
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: deploy-as-code-artifact
   #         path: .
@@ -318,7 +318,7 @@ jobs:
   #     AWS_REGION:  ${{ secrets.AWS_REGION }}
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v4
   #     - name: Deploying because changes were made in deploy-as-code
   #       run: echo "Deploying because changes were made in deploy-as-code"
   #     - name: Displaying the input parameters provided
@@ -427,7 +427,7 @@ jobs:
       AWS_REGION:  ${{ secrets.AWS_REGION }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Convert YAML to ENV
         uses: dcarbone/yaml-to-env-action@main
         with:
